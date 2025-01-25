@@ -11,16 +11,16 @@
   </configuration>
 </plugin>
 ```
-#### Mongodb docker compose
+#### Mongodb
 ```
-Sample docker compose file `mongodb/mongodb-docker-compose.yaml`
+mongodb docker compose file `mongodb/mongodb-docker-compose.yaml`
 ```
 
-#### Run Locust Doocker with lode test script
+#### Run Locust Docker with lode test script
 ```
 cd <PATH>/locust
 ```
-Run specific script. eg; springboot Mono load test with `Mongodb`
+Run specific script. (eg; springboot Mono load test with `Mongodb`)
 ```
 docker run -p 8089:8089 -v $(pwd):/mnt/locust locustio/locust -f /mnt/locust/reactive_mongo_load_test.py
 ```
