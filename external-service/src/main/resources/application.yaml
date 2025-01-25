@@ -1,0 +1,12 @@
+management.endpoint.health.probes.enabled: true
+management.health.livenessState.enabled: true
+management.health.readinessState.enabled: true
+server:
+  port: 7084
+  servlet:
+    contextPath: /external
+    max-threads: 100
+    min-spare-threads: 10
+
+server.jetty.threads.min: 10
+server.jetty.threads.max: 200
