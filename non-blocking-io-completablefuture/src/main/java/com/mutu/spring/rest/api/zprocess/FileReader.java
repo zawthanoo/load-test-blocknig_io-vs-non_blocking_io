@@ -24,6 +24,7 @@ public class FileReader {
         }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("File not found");
         }
         return content.toString();
     }

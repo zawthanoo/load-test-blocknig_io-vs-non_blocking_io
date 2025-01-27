@@ -1,0 +1,21 @@
+When handling huge parallel requests, Mono (from Project Reactor) is generally better suited, especially for reactive or highly concurrent systems. Here's why:
+Why Mono is Better for Handling Huge Parallel Requests:
+Non-Blocking & Asynchronous Nature:
+Mono is designed to handle non-blocking I/O operations, which means it can manage large numbers of requests concurrently without blocking threads. It works well with event-driven systems where tasks can be executed in parallel without waiting for each one to complete in sequence.
+Backpressure Support:
+Mono, being part of the Reactive Streams specification, supports backpressure, meaning that it can manage the rate of requests flowing through the system. This ensures that the system doesn’t get overwhelmed by too many concurrent requests, making it more scalable.
+Efficient Thread Utilization:
+Mono integrates with Reactor's Schedulers, which allows efficient handling of threads. It can manage multiple parallel tasks while keeping resource consumption low, making it ideal for handling thousands or even millions of requests concurrently.
+Scaling with Reactive Systems:
+In a reactive ecosystem, such as Spring WebFlux, Mono is built to scale horizontally, making it well-suited for distributed systems and microservices that need to process massive parallel requests.
+Low Overhead:
+Mono is optimized for handling asynchronous workflows with minimal overhead. It doesn’t require a separate thread for each request, unlike traditional thread-per-request models (like in CompletableFuture or standard thread pools).
+Why CompletableFuture Might Be Less Ideal:
+Thread Blocking:
+CompletableFuture runs on a thread pool (like the ForkJoinPool), and while it's non-blocking in terms of returning a future, the actual execution of tasks may still block threads. Handling a large number of parallel requests with CompletableFuture can lead to thread exhaustion if too many requests are pending, especially if the ForkJoinPool is not properly sized.
+No Backpressure:
+CompletableFuture doesn’t have built-in backpressure mechanisms, meaning that it might overwhelm the system if the number of requests grows too large. As more tasks are queued, it could lead to resource contention or degraded performance.
+Limited Concurrency Management:
+While you can control concurrency with CompletableFuture (by providing a custom Executor), it doesn't provide the fine-grained control over parallelism and resource management that Mono or a reactive approach offers.
+Conclusion:
+If your primary goal is to handle huge parallel requests with minimal resource usage, Mono from Project Reactor is the better choice, especially for reactive systems or when using Spring WebFlux. Its non-blocking nature, built-in backpressure support, and scalability make it far more efficient for managing large-scale parallel requests compared to CompletableFuture.

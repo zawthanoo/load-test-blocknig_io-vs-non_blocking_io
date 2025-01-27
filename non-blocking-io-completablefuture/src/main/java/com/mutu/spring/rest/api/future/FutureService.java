@@ -1,7 +1,6 @@
 package com.mutu.spring.rest.api.future;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -9,9 +8,8 @@ import com.mutu.spring.rest.api.dto.Message;
 import com.mutu.spring.rest.api.dto.ResultDto;
 import com.mutu.spring.rest.api.zprocess.ExternalHttpCall;
 import com.mutu.spring.rest.api.zprocess.FileReader;
-import com.mutu.spring.rest.api.zprocess.ReactiveMessageRepository;
+import com.mutu.spring.rest.api.zprocess.MessageRepository;
 import com.mutu.spring.rest.api.zprocess.SampleProcess;
-import reactor.core.publisher.Mono;
 
 @Service
 public class FutureService {
@@ -19,7 +17,7 @@ public class FutureService {
     private FileReader fileService;
 
     @Autowired
-    private ReactiveMessageRepository reactiveMessageRepository;
+    private MessageRepository messageRepository;
 
     @Autowired
     private SampleProcess sampleProcess;
@@ -42,27 +40,16 @@ public class FutureService {
 
     @Async
     public CompletableFuture<ResultDto> saveMessage(Message message) {
-        CompletableFuture<Message> futureMessage =
-                reactiveMessageRepository.save(message).toFuture();
-        Message saveMessage = null;
-        try {
-            saveMessage = futureMessage.get();
-            return CompletableFuture.completedFuture(
-                    new ResultDto(saveMessage.getMessageId(), saveMessage.getMessageId()));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to insert data");
-        } catch (ExecutionException e) {
-            throw new RuntimeException("Failed to insert data");
-        }
+        Message saveMessage = messageRepository.save(message);
+        return CompletableFuture.completedFuture(
+                new ResultDto(saveMessage.getMessageId(), saveMessage.getMessage()));
     }
 
     @Async
     public CompletableFuture<ResultDto> externalProcess(Message message) {
-        Mono<Message> monoMessage = externalHttpCall.process(message);
-        Mono<ResultDto> resultDtoMono =  monoMessage.map(response -> {
-            return new ResultDto(response.getMessageId(), response.getMessage());
+        CompletableFuture<Message> futureMessage = externalHttpCall.process(message);
+        return futureMessage.thenApply(parm -> {
+            return new ResultDto(parm.getMessageId(), parm.getMessage());
         });
-        return resultDtoMono.toFuture();
     }
 }

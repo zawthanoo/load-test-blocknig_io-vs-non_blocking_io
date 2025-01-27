@@ -3,9 +3,12 @@ management.health.livenessState.enabled: true
 management.health.readinessState.enabled: true
 
 server.port: 7094
-server.jetty.threads.min: 10
-server.jetty.threads.max: 200
 spring.webflux.base-path: /loadtest
+
+# This property controls the number of threads dedicated to accepting incoming connections. Usually, one is sufficient.
+server.netty.boss-count: 1
+## Set the number of threads in the worker group (handling requests)
+server.netty.worker-count: 4
 
 
 # Set logging level to DEBUG for Kafka-related logs

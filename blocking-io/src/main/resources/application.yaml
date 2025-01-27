@@ -8,12 +8,6 @@ server:
     max-threads: 100
     min-spare-threads: 10
 
-server.jetty.threads.min: 10
-server.jetty.threads.max: 200
-
-reactor.netty.ioWorkerCount: 16  # Adjust based on your CPU cores
-reactor.netty.pool.maxConnections: 500
-
 # Set logging level to DEBUG for Kafka-related logs
 logging.level.org.apache.kafka: ERROR
 logging.level.org.springframework.kafka: ERROR
