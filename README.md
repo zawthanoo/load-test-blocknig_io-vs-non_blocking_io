@@ -7,7 +7,7 @@
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-maven-plugin</artifactId>
   <configuration>
-    <jvmArguments>-Xms128m -Xmx256m -XX:ActiveProcessorCount=1</jvmArguments>
+    <jvmArguments>-Xms256m -Xmx512m -XX:ActiveProcessorCount=2</jvmArguments>
   </configuration>
 </plugin>
 ```
