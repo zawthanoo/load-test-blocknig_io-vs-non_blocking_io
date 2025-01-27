@@ -42,7 +42,7 @@ public class ReactiveService {
     public Mono<ResultDto> saveMessage(Message message) {
         Mono<Message> monoMessage = reactiveMessageRepository.save(message);
         return monoMessage.map(saveMessage -> {
-            return new ResultDto(saveMessage.getId(), saveMessage.getMessageId());
+            return new ResultDto(saveMessage.getMessageId(), saveMessage.getMessage());
         });
     }
 
