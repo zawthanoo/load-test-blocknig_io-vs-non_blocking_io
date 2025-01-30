@@ -30,10 +30,10 @@ All of result are tested by 2000 users, ramp up period 10 sec, durration 10 min.
 
 
 ## Taditional
-<img src="images/traditional_process_200.jpg" width="800" />
+<img src="images/traditional_process_2000.jpg" width="800" />
 
 ## CompletableFuture
-<img src="images/future_process_200.jpg" width="800" />
+<img src="images/future_process_2000.jpg" width="800" />
 
 ## Reactive/webflux
-<img src="images/reactive_process_200.jpg" width="800" />
+<img src="images/reactive_process_2000.jpg" width="800" />
