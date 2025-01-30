@@ -26,18 +26,21 @@ public class FutureService {
     private ExternalHttpCall externalHttpCall;
 
 
+    // @Async("asyncTaskExecutor")
     @Async
     public CompletableFuture<ResultDto> process(Message message) {
         String data = sampleProcess.virtualProcess(message);
         return CompletableFuture.completedFuture(new ResultDto(message.getMessageId(), data));
     }
 
+    // @Async("asyncTaskExecutor")
     @Async
     public CompletableFuture<ResultDto> ioprocess(Message message) {
         String data = fileService.readFileFromResources();
         return CompletableFuture.completedFuture(new ResultDto(message.getMessageId(), data));
     }
 
+    // @Async("asyncTaskExecutor")
     @Async
     public CompletableFuture<ResultDto> saveMessage(Message message) {
         Message saveMessage = messageRepository.save(message);
@@ -45,6 +48,7 @@ public class FutureService {
                 new ResultDto(saveMessage.getMessageId(), saveMessage.getMessage()));
     }
 
+    // @Async("asyncTaskExecutor")
     @Async
     public CompletableFuture<ResultDto> externalProcess(Message message) {
         CompletableFuture<Message> futureMessage = externalHttpCall.process(message);

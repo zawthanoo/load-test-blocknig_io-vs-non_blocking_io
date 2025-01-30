@@ -26,16 +26,16 @@ public class ReactiveService {
     private ExternalHttpCall externalHttpCall;
 
     public Mono<ResultDto> process(Message message) {
-        String data = sampleProcess.virtualProcess(message);
-        return Mono.fromCallable(() -> {
-            return new ResultDto(message.getMessageId(), data);
+        Mono<String> data = sampleProcess.virtualProcess(message);
+        return data.map(processData -> {
+            return new ResultDto(message.getMessageId(), processData);
         });
     }
 
     public Mono<ResultDto> ioprocess(Message message) {
-        String data = fileService.readFileFromResources();
-        return Mono.fromCallable(() -> {
-            return new ResultDto(message.getMessageId(), data);
+        Mono<String> data = fileService.readFileFromResources();
+        return data.map(processData -> {
+            return new ResultDto(message.getMessageId(), processData);
         });
     }
 

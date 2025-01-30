@@ -9,25 +9,25 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import lombok.extern.slf4j.Slf4j;
 
 
-@Configuration
-@EnableAsync
+// @Configuration
+// @EnableAsync
 @Slf4j
 public class AsyncThreadPoolConfig {
 
-    @Value("${com.cod.async.microservice.corepoolsize:1000}")
+    @Value("${initial-thread-size:100}")
     private int corePoolSize;
 
-    @Value("${com.cod.async.microservice.maxpoolsize:1000}")
+    @Value("${max-thread-size:500}")
     private int maxPoolSize;
 
-    @Bean(name = "otcServiceAsyncTaskExecutor")
+    @Bean(name = "asyncTaskExecutor")
     public Executor asyncTaskExecutor() {
         log.info("Creating Async Task Executor for OTCServiceApi to serve request in parallel threads");
         final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(corePoolSize);
-        executor.setMaxPoolSize(maxPoolSize);
-        //executor.setQueueCapacity(500); //Keep this commented else throws error if queue is full.
-        executor.setThreadNamePrefix("asyncexe-");
+        executor.setCorePoolSize(corePoolSize);  // Initial number of threads
+        executor.setMaxPoolSize(maxPoolSize); // Maximum number of threads
+        //executor.setQueueCapacity(500); //Queue size for holding pending tasks. Keep this commented else throws error if queue is full.
+        executor.setThreadNamePrefix("AsyncTask-");
         executor.initialize();
         return executor;
     }
