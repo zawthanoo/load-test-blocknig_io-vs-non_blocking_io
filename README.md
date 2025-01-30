@@ -20,7 +20,7 @@ mongodb docker compose file `mongodb/mongodb-docker-compose.yaml`
 ```
 cd <PATH>/locust
 ```
-Run specific script. (eg; springboot Mono load test with `Mongodb`)
+Run specific script
 ```
 docker run -p 8089:8089 -v $(pwd):/mnt/locust locustio/locust -f /mnt/locust/reactive_process.py
 ```
